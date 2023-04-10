@@ -1,0 +1,16 @@
+{
+  "@sapui5/generator-sapui5-templates": {
+    "promptValues": {
+      "ApplicationTitle": "Proposition",
+      "ApplicationDescription": "Proposition",
+      "FLP": true,
+      "ServiceBaseUri": "http://gatewaydevsrv:8000/sap/opu/odata/sap",
+      "DatasourceUrl": "ZUBPA_PROPOSITION_SRV",
+      "ObjectCollection": "Test",
+      "ObjectCollection_Key": "test",
+      "Object_Identifier": "test",
+      "Object_Number": "test",
+      "Object_UnitOfMeasure": "test"
+    }
+  }
+}

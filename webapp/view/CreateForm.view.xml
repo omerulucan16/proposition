@@ -1,0 +1,89 @@
+<core:View height="100%" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:tnt="sap.tnt"
+    xmlns:l="sap.ui.layout" xmlns:u="sap.ui.unified" xmlns:f="sap.ui.layout.form" xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+    controllerName="com.marturfompak.propositionmanagement.propositionmanagement.controller.CreateForm">
+    <tnt:ToolPage id="toolPage" sideExpanded="true">
+        <tnt:header>
+            <tnt:ToolHeader>
+                <Button id="sideNavigationToggleButton" icon="sap-icon://menu2" type="Transparent"
+                    press="onSideNavButtonPress">
+                    <layoutData>
+                        <OverflowToolbarLayoutData priority="NeverOverflow" />
+                    </layoutData>
+                </Button>
+                <ToolbarSpacer width="20px" />
+            </tnt:ToolHeader>
+        </tnt:header>
+        <tnt:sideContent>
+            <tnt:SideNavigation expanded="true" selectedKey="{createFormModel>/selectedKey}" itemSelect="onItemSelect">
+                <tnt:NavigationList items="{path: 'mainModel>/navigation'}">
+                    <tnt:NavigationListItem text="{mainModel>title}" icon="{mainModel>icon}"
+                        enabled="{mainModel>enabled}" expanded="{mainModel>expanded}" items="{mainModel>items}"
+                        key="{mainModel>key}">
+                        <tnt:NavigationListItem text="{mainModel>title}" key="{mainModel>key}"
+                            enabled="{mainModel>enabled}"></tnt:NavigationListItem>
+                    </tnt:NavigationListItem>
+                </tnt:NavigationList>
+            </tnt:SideNavigation>
+        </tnt:sideContent>
+        <tnt:mainContents>
+            <NavContainer id="pageContainer">
+                <pages>
+                    <Page id="rfqApprovalList"
+                        title="{parts: [{path: 'i18n>rfqApprovalFormList'}, {path: 'formViewModel>/mode'}], formatter: 'formatMessage'}"
+                        showNavButton="false" showHeader="true">
+                        <content>
+                            <VBox>
+                                <f:SimpleForm id="firstForm" editable="true" layout="ResponsiveGridLayout"
+                                    labelSpanXL="2" labelSpanL="2" labelSpanM="3" labelSpanS="12"
+                                    adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+                                    columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false">
+                                    <f:content>
+                                        <core:Title text="{i18n>createFormTitle}" />
+                                        <Label text="{= ${createFormModel>/isForAnotherUser} !== false ? ${i18n>managerNameSurname} : ${i18n>nameSurname}}" />
+                                        <Input enabled="false"
+                                            value="{createFormModel>/pernr} - {createFormModel>/ename}" />
+                                        <Label text="{i18n>categoryText}" required="true" />
+                                        <Select required="true" selectedKey="{createFormModel>/selectedCategory}"
+                                            class="sapUiSmallMarginBottom" forceSelection="false"
+                                            items="{/CategorySet}">
+                                            <core:Item key="{Katno}" text="{Ktext}" />
+
+                                        </Select>
+                                         <Label text="{i18n>nameSurname}" required="true"  visible="{createFormModel>/isForAnotherUser}"/>
+                                        <Select required="true" visible="{createFormModel>/isForAnotherUser}" selectedKey="{createFormModel>/selectedUser}"
+                                            class="sapUiSmallMarginBottom" forceSelection="false"
+                                            items="{createFormModel>/userList}">
+                                            <core:Item key="{createFormModel>Pernr}" text="{createFormModel>Ename}" />
+
+                                        </Select>
+                                        <Label text="{i18n>explanationText}" required="true" />
+                                        <TextArea value="{createFormModel>/explanation}" maxLength="1024"
+                                            valueLiveUpdate="false" growing="true" growingMaxLines="7"
+                                            editable="{newObject>IsEditable}" />
+
+
+                                        <Label text="{i18n>solutionText}" required="true"/>
+										<TextArea value="{createFormModel>/suggestionSolution}" maxLength="1024" valueLiveUpdate="false" growing="true" growingMaxLines="7" editable="{newObject>IsEditable}"/>
+													
+										
+									</f:content>
+								</f:SimpleForm>
+								
+							</VBox>
+                        </content>
+                        <footer>
+							<Toolbar>
+
+								<ToolbarSpacer />	
+								<Button text="{i18n>saveText}" visible="{createFormModel>/isCreatable}" type="Accept" press="onPressSave" />
+                                <Button text="{i18n>closeText}" type="Reject" press="onPressClose" />
+							</Toolbar>
+						</footer>
+                    </Page>
+                </pages>
+            </NavContainer>
+        </tnt:mainContents>
+    </tnt:ToolPage>
+</core:View>

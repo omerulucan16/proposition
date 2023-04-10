@@ -1,0 +1,169 @@
+<core:View height="100%" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:tnt="sap.tnt"
+    xmlns:l="sap.ui.layout" xmlns:u="sap.ui.unified" xmlns:f="sap.ui.layout.form" xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+    controllerName="com.marturfompak.propositionmanagement.propositionmanagement.controller.Worklist">
+    <tnt:ToolPage id="toolPage" sideExpanded="true">
+        <tnt:header>
+            <tnt:ToolHeader>
+                <Button id="sideNavigationToggleButton" icon="sap-icon://menu2" type="Transparent"
+                    press="onSideNavButtonPress">
+                    <layoutData>
+                        <OverflowToolbarLayoutData priority="NeverOverflow" />
+                    </layoutData>
+                </Button>
+                <ToolbarSpacer width="20px" />
+            </tnt:ToolHeader>
+        </tnt:header>
+        <tnt:sideContent>
+            <tnt:SideNavigation expanded="true" selectedKey="{listViewModel>/selectedKey}" itemSelect="onItemSelect">
+                <tnt:NavigationList items="{path: 'mainModel>/navigation'}">
+                    <tnt:NavigationListItem text="{mainModel>title}" icon="{mainModel>icon}"
+                        enabled="{mainModel>enabled}" expanded="{mainModel>expanded}" items="{mainModel>items}"
+                        key="{mainModel>key}">
+                        <tnt:NavigationListItem text="{mainModel>title}" key="{mainModel>key}"
+                            enabled="{mainModel>enabled}"></tnt:NavigationListItem>
+                    </tnt:NavigationListItem>
+                </tnt:NavigationList>
+            </tnt:SideNavigation>
+        </tnt:sideContent>
+        <tnt:mainContents>
+            <NavContainer id="pageContainer">
+                <pages>
+                    <Page id="rfqApprovalList"
+                        title="{parts: [{path: 'i18n>rfqApprovalFormList'}, {path: 'formViewModel>/mode'}], formatter: 'formatMessage'}"
+                        showNavButton="false" showHeader="true">
+                        <content>
+                            <fb:FilterBar search="onSearch" filterBarExpanded="true" showFilterConfiguration="false"
+                                visible="{listViewModel>/isAnother}">
+                                <fb:filterItems>
+                                    <fb:FilterItem name="pernr" label="{i18n>userListText}"
+                                        visible="{listViewModel>/isAnother}">
+                                        <fb:control>
+                                            <Select required="true" visible="{listViewModel>/isAnother}"
+                                                selectedKey="{listViewModel>/pernr}" class="sapUiSmallMarginBottom"
+                                                forceSelection="false" items="{listViewModel>/userList}">
+                                                <core:Item key="{listViewModel>Pernr}" text="{listViewModel>Ename}" />
+
+                                            </Select>
+                                        </fb:control>
+                                    </fb:FilterItem>
+                                </fb:filterItems>
+                            </fb:FilterBar>
+                            <IconTabBar id="idIconTabBar" select="onStatusFilter" class="sapUiResponsiveContentPadding"
+                                expanded="true">
+                                <items>
+
+                                    <IconTabFilter icon="sap-icon://pending" iconColor="Critical"
+                                        count="{listViewModel>/totalCount1}" text="{i18n>waitingPayment}" key="1" />
+                                    <IconTabFilter icon="sap-icon://decline" iconColor="Positive"
+                                        count="{listViewModel>/totalCount2}" text="{i18n>willPayment}" key="2" />
+                                    <IconTabFilter icon="sap-icon://complete" iconColor="Positive"
+                                        count="{listViewModel>/totalCount3}" text="{i18n>alreadyPayment}" key="3" />
+                                    <IconTabFilter icon="sap-icon://complete" iconColor="Negative"
+                                        count="{listViewModel>/totalCount4}" text="{i18n>rejectedPayment}" key="4" />
+                                    <IconTabFilter icon="sap-icon://complete" iconColor="Neutral"
+                                        count="{listViewModel>/totalCount5}" text="{i18n>propToKaizen}" key="5" />
+                                </items>
+                                <content>
+                                    <OverflowToolbar> 
+
+                                        <GenericTag text="{i18n>targetPropCountText}" status="Success" design="StatusIconHidden"  class="sapUiSmallMarginBottom">
+                                            <ObjectNumber  emphasized="false" number="{listViewModel>/proposition/OHedefs}" />
+                                        </GenericTag>
+                                         <GenericTag text="{i18n>totalPropYearBaseCountText}" status="Success" design="StatusIconHidden"  class="sapUiSmallMarginBottom">
+                                            <ObjectNumber  emphasized="false" number="{listViewModel>/proposition/YVerilenOneri}" />
+                                        </GenericTag>
+                                         <GenericTag text="{i18n>acceptedPropCountText}" status="Success" design="StatusIconHidden"  class="sapUiSmallMarginBottom">
+                                            <ObjectNumber  emphasized="false" number="{listViewModel>/proposition/OKabule}" />
+                                        </GenericTag>
+                                         <GenericTag text="{i18n>totalPropCountText}" status="Success" design="StatusIconHidden"  class="sapUiSmallMarginBottom">
+                                            <ObjectNumber  emphasized="false" number="{listViewModel>/proposition/OToplam}" />
+                                        </GenericTag>
+                                         <GenericTag text="{i18n>leftPropCountText}" status="Success" design="StatusIconHidden"  class="sapUiSmallMarginBottom">
+                                            <ObjectNumber  emphasized="false" number="{listViewModel>/proposition/OKalano}" />
+                                        </GenericTag>
+                                        
+                                    </OverflowToolbar>
+                                    <OverflowToolbar> 
+                                        <GenericTag text="{i18n>targetPropToKaizenCountText}" status="Success" design="StatusIconHidden"  class="sapUiSmallMarginBottom">
+                                            <ObjectNumber  emphasized="false" number="{listViewModel>/proposition/KHedefs}" />
+                                        </GenericTag>
+                                         <GenericTag text="{i18n>totalPropToKaizenYearBaseCountText}" status="Success" design="StatusIconHidden"  class="sapUiSmallMarginBottom">
+                                            <ObjectNumber  emphasized="false" number="{listViewModel>/proposition/YVerOnrHzlKzn}" />
+                                        </GenericTag>
+                                         <GenericTag text="{i18n>acceptedPropToKaizenCountText}" status="Success" design="StatusIconHidden"  class="sapUiSmallMarginBottom">
+                                            <ObjectNumber  emphasized="false" number="{listViewModel>/proposition/KKabule}" />
+                                        </GenericTag>
+                                         <GenericTag text="{i18n>totalPropToKaizenCountText}" status="Success" design="StatusIconHidden"  class="sapUiSmallMarginBottom">
+                                            <ObjectNumber  emphasized="false" number="{listViewModel>/proposition/KToplam}" />
+                                        </GenericTag>
+                                         <GenericTag text="{i18n>leftPropToKaizenCountText}" status="Success" design="StatusIconHidden"  class="sapUiSmallMarginBottom">
+                                            <ObjectNumber  emphasized="false" number="{listViewModel>/proposition/KKalano}" />
+                                        </GenericTag>
+                                        
+                                    </OverflowToolbar>
+                                    <Table id="RFQListTable"
+                                        items="{listViewModel>/proposition/navStatisticsPropositionTab}"
+                                        growing="true" growingThreshold="100"
+                                        growingScrollToLoad="true">
+
+                                        <columns >
+
+                                            <Column minScreenWidth="Tablet" demandPopin="true">
+                                                <Text text="{i18n>bimCode}" />
+                                            </Column>
+                                            <Column minScreenWidth="Tablet" demandPopin="true">
+                                                <Text text="{i18n>pernr} - {i18n>namesurnameList}" />
+                                            </Column>
+                                            <Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+                                                <Text text="{i18n>suggestionDate}" />
+                                            </Column>
+                                            <Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+                                                <Text text="{i18n>suggestionType}" />
+                                            </Column>
+                                            <Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+                                                <Text text="{i18n>categoryDefinition}" />
+                                            </Column>
+                                            <Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+                                                <Text text="{i18n>subCategoryDefinition}" />
+                                            </Column>
+
+                                            <Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+                                                <Text text="{i18n>situation}" />
+                                            </Column>
+                                            <!-- <Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+                                                <Text text="{i18n>processIndicator}" />
+                                            </Column> -->
+                                        </columns>
+                                        <items>
+                                            <ColumnListItem type="Navigation"  press="onPressDetail">
+                                                <cells>
+                                                    <ObjectIdentifier title="{listViewModel>Bimkd}"
+                                                        text="{listViewModel>Seqnr}" />
+
+                                                    <ObjectIdentifier text="{listViewModel>Ename}"
+                                                        title="{path : 'listViewModel>Pernr', formatter: '.formatter.deleteZeros'}" />
+                                                    <Text
+                                                        text="{path: 'listViewModel>Ontrh', type: 'sap.ui.model.type.Date', formatOptions: { pattern: 'dd.MM.yyyy' } }" />
+
+                                                    <ObjectIdentifier title="{listViewModel>Ontip}" />
+                                                    <Text text="{listViewModel>Ktext}" />
+                                                    <Text text="{listViewModel>Atext}" />
+                                                    <ObjectStatus text="{listViewModel>Drmtx}"
+                                                        state="{path : 'listViewModel>Durum', formatter: '.formatter.setStatus'}" />
+                                                    <!-- <ObjectStatus text="{Statustext}"
+                                                        state="{path : 'Status', formatter: '.formatter.adminStatus'}" /> -->
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
+                                    </Table>
+                                </content>
+                            </IconTabBar>
+                        </content>
+                    </Page>
+                </pages>
+            </NavContainer>
+        </tnt:mainContents>
+    </tnt:ToolPage>
+</core:View>

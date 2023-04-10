@@ -22,7 +22,7 @@ sap.ui.define([
         onInit: function () {
             this.oModel = this.getOwnerComponent().getModel();
             this.getSideNavigationList();
-
+//ömer
             this.getRouter()
                 .getRoute("CreateForm")
                 .attachPatternMatched(this._onObjectMatched, this);

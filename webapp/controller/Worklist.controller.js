@@ -33,6 +33,7 @@ sap.ui.define([
                 totalCount4:0,
                 totalCount5:0
             });
+            //test
             this.setModel(oPropositionListModel, "listViewModel");
             this.listViewModel = this.getModel("listViewModel");
             this.listViewModel.setSizeLimit(999999999);
